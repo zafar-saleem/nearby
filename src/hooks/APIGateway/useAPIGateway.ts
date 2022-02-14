@@ -1,17 +1,21 @@
 import { useEffect, useState } from 'react';
+import {
+	URLParams,
+	Params,
+} from './interfaces';
 
-const generateURL = ({ method, endPoint }, ...rest) => {
+const generateURL = ({ method, endPoint }:URLParams, ...rest: any) => {
 	return new Promise((resolve, reject) => {
-		const baseURL = process.env.NEXT_PUBLIC_API_ENDPOINT;
-		let params = '', index = 1;
+		const baseURL = process.env.REACT_APP_API_ENDPOINT;
+		let params: string = '', index: number = 1;
 
-		const paramsCriteria = {
-			1: (key, value) => `?${key}=${value}`,
-			2: (key, value) => `&${key}=${value}`,
+		const paramsCriteria: Params = {
+			1: (key: string, value: string) => `?${key}=${value}`,
+			2: (key: string, value: string) => `&${key}=${value}`,
 		};
 
 		for (const [key, value] of Object.entries(rest[0])) {
-			params = `${params}${paramsCriteria[index](key, value)}`;
+			params = `${params}${paramsCriteria[index as keyof Params](key as string, value as string)}`;
 		  index = 2;
 		}
 
