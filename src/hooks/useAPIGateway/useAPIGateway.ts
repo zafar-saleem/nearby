@@ -27,7 +27,7 @@ const generateURL = ({ method, endPoint }:URLParams, ...rest: any) => {
 	});
 }
 
-export const useAPIGateway = () => {
+export const useAPIGateway = ({ method, endPoint }: URLParams) => {
 	const [data, setData] = useState<any[]>([]);
 	const [loader, setLoader] = useState<boolean>(false);
 	const [httpProps, setHttpProps] = useState<any>({});
@@ -36,18 +36,19 @@ export const useAPIGateway = () => {
 	useEffect(() => {
 		async function load() {
 			setLoader(true);
-			const url: string = await generateURL(httpProps, { ...params }) as string;
+			const url: string = await generateURL({ method, endPoint }, { ...params }) as string;
 			const response = await fetch(url, {
 			  method: httpProps?.method,
 			  headers: {
-		      'Content-Type': 'application/json',
+		      'Content-Type': 'application/json' as any,
+		      'Authorization': process.env.REACT_APP_API_KEY as any,
 		    },
 			  ...(httpProps?.method !== 'GET' && { data: { ...params } }),
 			});
 
 			const json = await response.json();
 
-			setData(json.items);
+			setData(json.results);
 			setLoader(false);
 		}
 
