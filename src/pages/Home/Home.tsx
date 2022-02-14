@@ -11,9 +11,10 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import IconButton from '@mui/material/IconButton';
-import { Loader } from '../../components/';
+import { Loader, Search, } from '../../components/';
 import { useAPIGateway } from '../../hooks/useAPIGateway/';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { SEARCH_RESPONSE_RECEIVED } from '../../Events/';
 import { useStyles, StyledTypography } from './Home.styled';
 
 export const Home: React.FC = () => {
@@ -22,22 +23,37 @@ export const Home: React.FC = () => {
 	const classes = useStyles();
 	const {
 		data,
+		setData,
 		loader,
 		setParams,
 	} = useAPIGateway({
   	method: 'GET',
-  	endPoint: 'places/nearby',
+  	endPoint: 'places/search',
   });
 
 	useEffect(() => {
 		setParams(() => ({
 			ll: '35.66,139.73',
 			query: 'restaurants',
+			radius: 1000,
 		}));
+	}, []);
+
+	useEffect(() => {
+		(globalThis as any).events.listen(SEARCH_RESPONSE_RECEIVED, (item: any) => {
+			setData(item);
+		});
 	}, []);
 
 	return (
 		<Container maxWidth='lg'>
+			<Search
+				type='search'
+				name='search'
+        id='outlined-error-helper-text'
+        label='Search Restaurants Nearby'
+        placeholder='e.g. msb Tamachi...'
+			/>
 			<Grid container spacing={2}>
 				{
 					loader ? (
