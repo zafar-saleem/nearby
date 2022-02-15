@@ -22,8 +22,8 @@ const generateURL = ({ method, endPoint }: URLParams, ...rest: any) => {
 	if (endPoint) {
 		for (let link of endPoint) {
 			url.push((method === 'GET') &&
-				`${baseURL}${endPoint}${params}` ||
-				`${baseURL}${endPoint}`);
+				`${baseURL}${link}${params}` ||
+				`${baseURL}${link}`);
 		}
 	}
 
@@ -37,6 +37,8 @@ export const useAPIGateway = ({ method, endPoint }: URLParams) => {
 	const [params, setParams] = useState<any>({});
 
 	useEffect(() => {
+		const cancelTokenSource: any = axios.CancelToken.source();
+
 		async function load() {
 			setLoader(true);
 			let promises: any = [];
@@ -48,6 +50,7 @@ export const useAPIGateway = ({ method, endPoint }: URLParams) => {
 					promises.push(axios({
 					  method: httpProps?.method,
 					  url: url,
+					  cancelToken: cancelTokenSource.token,
 					  headers: {
 				      'Content-Type': 'application/json' as any,
 				      'Authorization': process.env.REACT_APP_API_KEY as any,
@@ -57,15 +60,12 @@ export const useAPIGateway = ({ method, endPoint }: URLParams) => {
 				}
 			}
 
-			console.log({promises});
 			const response: any = await axios.all(promises);
-
-			console.log({response})
 
 			if (response.length === 1) {
 				setData(response[0].data.results);
 			} else {
-				console.log({response});
+				setData(response);
 			}
 
 			setLoader(false);
@@ -73,8 +73,11 @@ export const useAPIGateway = ({ method, endPoint }: URLParams) => {
 
 		load();
 
-		return () => undefined;
-	}, [JSON.stringify(httpProps), JSON.stringify(params)]);
+		return () => cancelTokenSource.cancel();
+	}, [
+		JSON.stringify(httpProps),
+		JSON.stringify(params),
+	]);
 
 	return {
 		data,
