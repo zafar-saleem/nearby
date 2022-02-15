@@ -1,8 +1,10 @@
+import { IEventsList } from './interfaces';
+
 export const EventDispatcher = () => {
-  let eventsList: any = {};
+  let eventsList: IEventsList = {};
 
   return () => {
-    const listen = (eventName: string, callback: any) => {
+    const listen = (eventName: string, callback: Function) => {
       if (!eventsList[eventName]) {
         eventsList[eventName] = [];
       }

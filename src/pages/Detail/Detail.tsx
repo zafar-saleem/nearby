@@ -9,14 +9,9 @@ import { useAPIGateway } from '../../hooks/useAPIGateway/';
 import { Loader, } from '../../components/';
 import { Reviews } from './components/Reviews/';
 import { Maps } from './components/Map/';
+import { ITabPanelProps, IItem } from './interfaces';
 
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
-
-function TabPanel(props: TabPanelProps) {
+function TabPanel(props: ITabPanelProps) {
   const { children, value, index, ...other } = props;
 
   return (
@@ -49,9 +44,7 @@ export const Detail: React.FC = () => {
 	const [value, setValue] = useState<number>(0);
 	const {
 		data,
-		setData,
 		loader,
-		setParams,
 	} = useAPIGateway({
   	method: 'GET',
   	endPoint: [
@@ -69,7 +62,18 @@ export const Detail: React.FC = () => {
   }, [data]);
 
   const generateData = () => {
-  	let items: any = {};
+  	let items: IItem = {
+  		geocodes: {
+  			longitude: 1.45,
+  			latitude: 0.23,
+  		},
+  		name: 'Crispy',
+  		tips: {
+  			created_at: 'Tue 15, Feb 2022',
+  			text: 'This is feedback',
+  			id: 'sdasd21312312sada',
+  		}
+  	};
 
   	setDetails(() => data.map((item) => {
   		if (item.data?.geocodes?.hasOwnProperty('main')) {

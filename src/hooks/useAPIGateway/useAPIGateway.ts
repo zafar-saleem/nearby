@@ -1,21 +1,21 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import {
-	URLParams,
-	Params,
+	IURLParams,
+	IParams,
 } from './interfaces';
 
-const generateURL = ({ method, endPoint }: URLParams, ...rest: any) => {
+const generateURL = ({ method, endPoint }: IURLParams, ...rest: any) => {
 	const baseURL = process.env.REACT_APP_API_ENDPOINT;
 	let params: string = '', index: number = 1, url: string[] = [];
 
-	const paramsCriteria: Params = {
+	const paramsCriteria: IParams = {
 		1: (key: string, value: string) => `?${key}=${value}`,
 		2: (key: string, value: string) => `&${key}=${value}`,
 	};
 
 	for (const [key, value] of Object.entries(rest[0])) {
-		params = `${params}${paramsCriteria[index as keyof Params](key as string, value as string)}`;
+		params = `${params}${paramsCriteria[index as keyof IParams](key as string, value as string)}`;
 	  index = 2;
 	}
 
@@ -30,7 +30,7 @@ const generateURL = ({ method, endPoint }: URLParams, ...rest: any) => {
 	return url;
 }
 
-export const useAPIGateway = ({ method, endPoint }: URLParams) => {
+export const useAPIGateway = ({ method, endPoint }: IURLParams) => {
 	const [data, setData] = useState<any[]>([]);
 	const [loader, setLoader] = useState<boolean>(false);
 	const [httpProps, setHttpProps] = useState<any>({});
@@ -75,8 +75,8 @@ export const useAPIGateway = ({ method, endPoint }: URLParams) => {
 
 		return () => cancelTokenSource.cancel();
 	}, [
-		JSON.stringify(httpProps),
-		JSON.stringify(params),
+		httpProps,
+		params
 	]);
 
 	return {
