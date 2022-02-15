@@ -36,7 +36,7 @@ export const Search: React.FC<IInputProps> = ({
 
 	const debouncedSeachRestaurants = debounce((criteria: string) => {
 		setQuery(criteria);
-	}, 1000);
+	}, 100);
 
 	const seachRestaurants = (event: React.ChangeEvent<HTMLInputElement>) => {
 		debouncedSeachRestaurants(event.target.value);
