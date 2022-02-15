@@ -8,15 +8,10 @@ import Box from '@mui/material/Box';
 import { useAPIGateway } from '../../hooks/useAPIGateway/';
 import { Loader, } from '../../components/';
 import { Reviews } from './components/Reviews/';
-import { Photos } from './components/Photos/';
+import { Maps } from './components/Map/';
+import { ITabPanelProps, IItem } from './interfaces';
 
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
-
-function TabPanel(props: TabPanelProps) {
+function TabPanel(props: ITabPanelProps) {
   const { children, value, index, ...other } = props;
 
   return (
@@ -49,14 +44,11 @@ export const Detail: React.FC = () => {
 	const [value, setValue] = useState<number>(0);
 	const {
 		data,
-		setData,
 		loader,
-		setParams,
 	} = useAPIGateway({
   	method: 'GET',
   	endPoint: [
   		`places/${id}`,
-  		`places/${id}/photos`,
   		`places/${id}/tips`
   	],
   });
@@ -70,15 +62,25 @@ export const Detail: React.FC = () => {
   }, [data]);
 
   const generateData = () => {
-  	let items: any = {};
+  	let items: IItem = {
+  		geocodes: {
+  			longitude: 1.45,
+  			latitude: 0.23,
+  		},
+  		name: 'Crispy',
+  		tips: {
+  			created_at: 'Tue 15, Feb 2022',
+  			text: 'This is feedback',
+  			id: 'sdasd21312312sada',
+  		}
+  	};
 
   	setDetails(() => data.map((item) => {
   		if (item.data?.geocodes?.hasOwnProperty('main')) {
   			items['geocodes'] = item?.data?.geocodes?.main;
+  			items['name'] = item?.data?.name;
   		}
-  		if (item.data[0]?.hasOwnProperty('width')) {
-  			items['photos'] = item?.data;
-  		}
+  		
   		if (item.data[0]?.hasOwnProperty('text')) {
   			items['tips'] = item?.data;
   		}
@@ -91,9 +93,15 @@ export const Detail: React.FC = () => {
 		<Container maxWidth='lg'>
 			<Box sx={{ width: '100%' }}>
 	      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+	      	{
+	      		details === undefined
+	      		?
+	      		<p>No details found</p>
+	      		:
+	      		details[0]?.geocodes && (<Maps geocodes={details[0]?.geocodes} title={details[0]?.name} />)
+	      	}
 	        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
 	          <Tab label="Reviews" {...a11yProps(0)} />
-	          <Tab label="Photos" {...a11yProps(1)} />
 	        </Tabs>
 	      </Box>
 	      {
@@ -102,16 +110,13 @@ export const Detail: React.FC = () => {
 		      ) : (
 		      	<>
 		      		{
-		      			!details
+		      			details === undefined
 		      			?
 		      				<p>No details found</p>
 		      			:
 		      				<>
 		      					<TabPanel value={value} index={0}>
 							        {details[0]?.tips && (<Reviews tips={details[0]?.tips} />)}
-							      </TabPanel>
-							      <TabPanel value={value} index={1}>
-							        {details[0]?.photos && (<Photos photos={details[0]?.photos} />)}
 							      </TabPanel>
 		      				</>
 		      		}

@@ -14,7 +14,7 @@ import IconButton from '@mui/material/IconButton';
 import { Loader, Search, } from '../../components/';
 import { useAPIGateway } from '../../hooks/useAPIGateway/';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { SEARCH_RESPONSE_RECEIVED } from '../../Events/';
+import { SEARCH_RESPONSE_RECEIVED } from '../../configs/';
 import { useStyles, StyledTypography } from './Home.styled';
 
 export const Home: React.FC = () => {
@@ -39,7 +39,7 @@ export const Home: React.FC = () => {
 		}));
 
 		return () => undefined;
-	}, []);
+	}, [setParams]);
 
 	useEffect(() => {
 		(globalThis as any).events.listen(SEARCH_RESPONSE_RECEIVED, (item: any) => {
@@ -47,7 +47,7 @@ export const Home: React.FC = () => {
 		});
 
 		return () => (globalThis as any).events.destroy(SEARCH_RESPONSE_RECEIVED);
-	}, []);
+	}, [setData]);
 
 	return (
 		<Container maxWidth='lg'>

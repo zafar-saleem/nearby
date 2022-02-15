@@ -1,10 +1,10 @@
-export interface URLParams {
+export interface IURLParams {
 	method: string;
 	endPoint?: string[];
 	link?: string;
 }
 
-export interface Params {
+export interface IParams {
 	1(key: string, value: string): string | undefined;
 	2(key: string, value: string): string | undefined;
 }

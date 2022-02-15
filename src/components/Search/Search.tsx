@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { debounce } from 'lodash';
-import { InputProps } from './interfaces';
+import { IInputProps } from './interfaces';
 import { useAPIGateway } from '../../hooks/useAPIGateway/';
-import { SEARCH_RESPONSE_RECEIVED } from '../../Events/';
+import { SEARCH_RESPONSE_RECEIVED } from '../../configs/';
 import { StyledSearch, Container } from './Search.styled';
 
-export const Search: React.FC<InputProps> = ({
+export const Search: React.FC<IInputProps> = ({
 	id,
 	label,
 	placeholder,
@@ -16,7 +16,6 @@ export const Search: React.FC<InputProps> = ({
 	const [query, setQuery] = useState<string>('');
 	const {
 		data,
-		loader,
 		setParams,
 	} = useAPIGateway({
   	method: 'GET',
@@ -29,7 +28,7 @@ export const Search: React.FC<InputProps> = ({
 			query: query,
 			radius: 1000,
 		}));
-	}, [query]);
+	}, [query, setParams]);
 
 	useEffect(() => {
 		(globalThis as any).events.dispatch(SEARCH_RESPONSE_RECEIVED, data);

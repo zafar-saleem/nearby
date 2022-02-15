@@ -4,15 +4,13 @@ import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
-import { Review } from './interfaces';
-// import { StyledList } from './Reviews.styled';
+import { IReviews, IReview } from './interfaces';
 
-export const Reviews: React.FC<any> = (props) => {
-	console.log(props);
+export const Reviews: React.FC<IReviews> = ({ tips }) => {
 	return (
 		<List sx={{ width: '100%', bgcolor: 'background.paper' }}>
 			{
-				props?.tips?.map((item: Review, index: number) => (
+				tips?.map((item: IReview, index: number) => (
 					<div key={item.id}>
 						<ListItem key={item.id} alignItems="flex-start">
 			        <ListItemText
