@@ -15,7 +15,7 @@ import { Loader, Search, } from '../../components/';
 import { useAPIGateway } from '../../hooks/useAPIGateway/';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { SEARCH_RESPONSE_RECEIVED } from '../../configs/';
-import { useStyles, StyledTypography } from './Home.styled';
+import { useStyles, StyledTypography, StyledLink } from './Home.styled';
 
 export const Home: React.FC = () => {
 	const mediumScreen = useMediaQuery('(max-width:900px)');
@@ -94,7 +94,7 @@ export const Home: React.FC = () => {
 															}
 															title={item.name.length > 16 ? `${item.name.substring(0, 11)}...` : item.name}
 														/>
-														<Link to={`detail/${item.fsq_id}`}>
+														<StyledLink to={`detail/${item.fsq_id}`}>
 															<CardContent>
 																<StyledTypography variant='body2' color='text.secondary'>
 																	{
@@ -104,7 +104,7 @@ export const Home: React.FC = () => {
 																	}
 																</StyledTypography>
 															</CardContent>
-														</Link>
+														</StyledLink>
 														<CardActions disableSpacing>
 															<IconButton aria-label='add to favorites'>
 																<FavoriteIcon />
