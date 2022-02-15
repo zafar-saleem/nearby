@@ -11,7 +11,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import IconButton from '@mui/material/IconButton';
-import { Loader, Search, } from '../../components/';
+import { Loader, Search, Title, } from '../../components/';
 import { useAPIGateway } from '../../hooks/useAPIGateway/';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { SEARCH_RESPONSE_RECEIVED } from '../../configs/';
@@ -51,6 +51,10 @@ export const Home: React.FC = () => {
 
 	return (
 		<Container maxWidth='lg'>
+			<Title
+				size="2"
+				title='Search'
+			/>
 			<Search
 				type='search'
 				name='search'
