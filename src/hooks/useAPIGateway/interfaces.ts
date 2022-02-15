@@ -1,6 +1,7 @@
 export interface URLParams {
 	method: string;
-	endPoint: string;
+	endPoint?: string[];
+	link?: string;
 }
 
 export interface Params {
