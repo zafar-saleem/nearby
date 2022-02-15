@@ -10,6 +10,10 @@ import { Loader, } from '../../components/';
 import { Reviews } from './components/Reviews/';
 import { Maps } from './components/Map/';
 import { ITabPanelProps, IItem } from './interfaces';
+import mapboxgl from 'mapbox-gl';
+// @ts-ignore
+// eslint-disable-next-line import/no-webpack-loader-syntax, import/no-unresolved
+mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 
 function TabPanel(props: ITabPanelProps) {
   const { children, value, index, ...other } = props;
