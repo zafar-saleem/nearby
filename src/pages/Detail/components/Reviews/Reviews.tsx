@@ -23,7 +23,7 @@ export const Reviews: React.FC<IReviews> = ({ tips }) => {
 			                variant="body2"
 			                color="text.primary"
 			              >
-			                {item.created_at}
+			                {new Date(item.created_at).toLocaleDateString()}
 			              </Typography>
 			            </>
 			          }
