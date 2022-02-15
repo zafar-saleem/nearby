@@ -20,9 +20,14 @@ export const EventDispatcher = () => {
       });
     };
 
+    const destroy = (eventName: string) => {
+    	delete eventsList[eventName];
+    };
+
     return {
-      dispatch: dispatch,
-      listen: listen
+      dispatch,
+      listen,
+      destroy
     };
   };
 };

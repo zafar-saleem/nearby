@@ -6,7 +6,7 @@ import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
-import Link from '@mui/material/Link';
+import { Link } from 'react-router-dom';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -28,7 +28,7 @@ export const Home: React.FC = () => {
 		setParams,
 	} = useAPIGateway({
   	method: 'GET',
-  	endPoint: 'places/search',
+  	endPoint: ['places/search'],
   });
 
 	useEffect(() => {
@@ -37,12 +37,16 @@ export const Home: React.FC = () => {
 			query: 'restaurants',
 			radius: 1000,
 		}));
+
+		return () => undefined;
 	}, []);
 
 	useEffect(() => {
 		(globalThis as any).events.listen(SEARCH_RESPONSE_RECEIVED, (item: any) => {
 			setData(item);
 		});
+
+		return () => (globalThis as any).events.destroy(SEARCH_RESPONSE_RECEIVED);
 	}, []);
 
 	return (
@@ -61,53 +65,60 @@ export const Home: React.FC = () => {
 					) : (
 						<>
 							{
-								data?.map((item, index) => (
-									<Grid item xs={smallScreen ? 12 : mediumScreen ? 4 : 3} key={`${item.fsq_id}-${index}`}>
-										<Card
-											sx={{ maxWidth: 345 }}
-											className={smallScreen ? classes.responsive : classes.normal}>
-											<Link
-												underline='none'
-												onClick={(event) => undefined}>
-												<CardMedia
-													component='img'
-													height='200'
-													image={`https://ui-avatars.com/api/?name=${item.name}&size=200&background=random`}
-													alt={item.name}
-												/>
-											</Link>
-											<CardHeader
-												action={
-													<IconButton aria-label='settings'>
-														<MoreVertIcon />
-													</IconButton>
-												}
-												title={item.name.length > 16 ? `${item.name.substring(0, 11)}...` : item.name}
-											/>
-											<Link
-												underline='none'
-												onClick={(event) => undefined}>
-												<CardContent>
-													<StyledTypography variant='body2' color='text.secondary'>
-														{
-															item.location.formatted_address ?
-															item.location.formatted_address :
-															`No address found`
-														}
-													</StyledTypography>
-												</CardContent>
-											</Link>
-											<CardActions disableSpacing>
-												<IconButton aria-label='add to favorites'>
-													<FavoriteIcon />
-												</IconButton>
-												<IconButton aria-label='share'>
-													<ShareIcon />
-												</IconButton>
-											</CardActions>
-										</Card>
-									</Grid>
-								))
+								data?.length === 0 ? (
+									<p>No restaurants received from the server</p>
+								) : (
+									<>
+										{
+											data?.map((item, index) => (
+												<Grid
+													item
+													xs={smallScreen ? 12 : mediumScreen ? 4 : 3}
+													key={`${item.fsq_id}-${index}`}>
+													<Card
+														sx={{ maxWidth: 345 }}
+														className={smallScreen ? classes.responsive : classes.normal}>
+														<Link to={`detail/${item.fsq_id}`}>
+															<CardMedia
+																component='img'
+																height='200'
+																image={`https://ui-avatars.com/api/?name=${item.name}&size=200&background=random`}
+																alt={item.name}
+															/>
+														</Link>
+														<CardHeader
+															action={
+																<IconButton aria-label='settings'>
+																	<MoreVertIcon />
+																</IconButton>
+															}
+															title={item.name.length > 16 ? `${item.name.substring(0, 11)}...` : item.name}
+														/>
+														<Link to={`detail/${item.fsq_id}`}>
+															<CardContent>
+																<StyledTypography variant='body2' color='text.secondary'>
+																	{
+																		item.location.formatted_address ?
+																		item.location.formatted_address :
+																		`No address found`
+																	}
+																</StyledTypography>
+															</CardContent>
+														</Link>
+														<CardActions disableSpacing>
+															<IconButton aria-label='add to favorites'>
+																<FavoriteIcon />
+															</IconButton>
+															<IconButton aria-label='share'>
+																<ShareIcon />
+															</IconButton>
+														</CardActions>
+													</Card>
+												</Grid>
+											))
+										}
+									</>
+								)
 							}
 						</>
 					)
