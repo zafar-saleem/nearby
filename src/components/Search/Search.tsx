@@ -20,7 +20,7 @@ export const Search: React.FC<InputProps> = ({
 		setParams,
 	} = useAPIGateway({
   	method: 'GET',
-  	endPoint: 'places/search',
+  	endPoint: ['places/search'],
   });
 
   useEffect(() => {
@@ -40,7 +40,6 @@ export const Search: React.FC<InputProps> = ({
 	}, 1000);
 
 	const seachRestaurants = (event: React.ChangeEvent<HTMLInputElement>) => {
-		console.log(event.target.value);
 		debouncedSeachRestaurants(event.target.value);
 	};
 
