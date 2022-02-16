@@ -14,6 +14,7 @@ In order to run this project in the browser successfully, please follow the step
 4. [Git Workflow](https://doc.clickup.com/p/h/13meh7-204/50598c0ae869647)
 5. [DevOps](https://doc.clickup.com/p/h/13meh7-224/87fb3f130a6c3bb)
 6. [Architecture](https://doc.clickup.com/p/h/13meh7-244/eb78e4e854a8789)
+7. [Performance](https://doc.clickup.com/p/h/13meh7-264/f763728d92e6bd1)
 
 ## Live Demo
 To view live demo please [click here](https://nearbylab.herokuapp.com/).
