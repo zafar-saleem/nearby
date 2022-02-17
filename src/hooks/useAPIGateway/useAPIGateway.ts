@@ -3,9 +3,10 @@ import axios from 'axios';
 import {
 	IURLParams,
 	IParams,
+	IRest,
 } from './interfaces';
 
-const generateURL = ({ method, endPoint }: IURLParams, ...rest: any) => {
+const generateURL = ({ method, endPoint }: IURLParams, ...rest: IRest[]) => {
 	const baseURL = process.env.REACT_APP_API_ENDPOINT;
 	let params: string = '', index: number = 1, url: string[] = [];
 
@@ -41,7 +42,7 @@ export const useAPIGateway = ({ method, endPoint }: IURLParams) => {
 
 		async function load() {
 			setLoader(true);
-			let promises: any = [];
+			let promises = [];
 
 			const urls: string[] = generateURL({ method, endPoint }, { ...params });
 
@@ -52,15 +53,15 @@ export const useAPIGateway = ({ method, endPoint }: IURLParams) => {
 					  url: url,
 					  cancelToken: cancelTokenSource.token,
 					  headers: {
-				      'Content-Type': 'application/json' as any,
-				      'Authorization': process.env.REACT_APP_API_KEY as any,
+				      'Content-Type': 'application/json' as string,
+				      'Authorization': process.env.REACT_APP_API_KEY as string,
 				    },
 					  ...(httpProps?.method !== 'GET' && { data: { ...params } }),
 					}));
 				}
 			}
 
-			const response: any = await axios.all(promises);
+			const response = await axios.all(promises);
 
 			if (response.length === 1) {
 				setData(response[0].data.results);
