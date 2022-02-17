@@ -37,7 +37,7 @@ To view list of all branches [click here](https://github.com/zafar-saleem/nearby
 
 To view list of all pull requests [click here](https://github.com/zafar-saleem/nearby/pulls?q=is%3Apr+is%3Aclosed).
 
-To view architecture diagram [click here](https://app.terrastruct.com/diagrams/665704889#layer=1643814274).
+To view architecture diagram [click here](https://app.terrastruct.com/diagrams/665704889).
 
 [My Personal Website](https://zafar-saleem.github.io/).
 
