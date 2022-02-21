@@ -1,3 +1,6 @@
+## Description
+A sample project that lists restaurants in 1km proximity of current location(by default the current longitudes and latitudes are set to Tokyo which is not changeable in UI however, it can be changed in the code). The list of restaurants are shown in Cards via Grid layout. We can filter the lis tof restaurants and also can see each individual restaurant in its own details page.
+
 ## Getting started
 In order to run this project in the browser successfully, please follow the steps below!
 
