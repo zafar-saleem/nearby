@@ -42,6 +42,4 @@ To view list of all pull requests [click here](https://github.com/zafar-saleem/n
 
 To view architecture diagram [click here](https://app.terrastruct.com/diagrams/665704889).
 
-[My Personal Website](https://zafar-saleem.github.io/).
-
-[My CV](https://zafar-saleem.github.io/static/media/CV.4eb22300.pdf).
+[My Website](https://zafar-saleem.github.io/).
